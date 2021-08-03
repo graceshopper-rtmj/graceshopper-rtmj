@@ -29,6 +29,11 @@ const Product = db.define('products', {
         validate: {
             min: 0,
         }
+    },
+    category: {
+        type: Sequelize.STRING
+        //theoretically could be ENUM but we don't know what our categories are yet 
+        //would make it easier to filter later if we only have x possible options though
     }
 
 
