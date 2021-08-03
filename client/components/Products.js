@@ -33,7 +33,7 @@ class Products extends React.Component {
              {this.state.error && <h1>{this.state.error}</h1>}
              {this.state.loading && <h1>{this.state.loading}</h1>}
              <div>
-                 {this.state.products.map(product => {
+                 {!this.state.loading && this.state.products.map(product => {
                     return (
                     <div key={product.id}>
                         <img src={product.imageURL} />
