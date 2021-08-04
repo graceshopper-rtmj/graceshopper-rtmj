@@ -10,6 +10,8 @@ class Cart extends React.Component {
       loading: true,
     };
     this.handleDelete = this.handleDelete.bind(this)
+    this.handleIncrement = this.handleIncrement.bind(this)
+    this.handleDecrement = this.handleDecrement.bind(this)
   }
   componentDidMount() {
     try {
@@ -34,6 +36,25 @@ class Cart extends React.Component {
     localStorage.cart = JSON.stringify(cart);
     this.setState({cart: JSON.parse(localStorage.cart)})
   }
+  handleIncrement(e) {
+    const cart = JSON.parse(localStorage.cart)
+    cart[e.target.value].qty++
+    localStorage.cart = JSON.stringify(cart);
+    this.setState({cart: JSON.parse(localStorage.cart)})
+  }
+  handleDecrement(e) {
+    let cart = JSON.parse(localStorage.cart)
+    if (cart[e.target.value].qty === 1) {
+      let idx = e.target.value
+      let left = cart.slice(0, idx)
+      let right = cart.slice(idx+1)
+      cart = [...left, ...right]
+    } else {
+      cart[e.target.value].qty--
+    }
+    localStorage.cart = JSON.stringify(cart);
+    this.setState({cart: JSON.parse(localStorage.cart)})
+  }
   render() {
     return (
       <div>
@@ -54,6 +75,20 @@ class Cart extends React.Component {
                     onClick={this.handleDelete}
                   >
                     Remove from cart
+                  </button>
+                  <button
+                    value={idx}
+                    type='button'
+                    onClick={this.handleIncrement}
+                  >
+                    +
+                  </button>
+                  <button
+                    value={idx}
+                    type='button'
+                    onClick={this.handleDecrement}
+                  >
+                    -
                   </button>
                 </div>
               );
