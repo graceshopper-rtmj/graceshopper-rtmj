@@ -6,6 +6,7 @@ import Home from './components/Home';
 import {me} from './store'
 import Products from './components/Products'
 import SingleProduct from './components/SingleProduct';
+import Cart from './components/Cart'
 
 /**
  * COMPONENT
@@ -33,6 +34,7 @@ class Routes extends Component {
         )}
         <Route exact path="/products" component={Products} />
         <Route path="/products/:id" component={SingleProduct} />
+        <Route path="/cart" component={Cart} />
       </div>
     )
   }
