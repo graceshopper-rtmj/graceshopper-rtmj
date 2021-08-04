@@ -12,18 +12,7 @@ class Cart extends React.Component {
   }
   componentDidMount() {
     try {
-      // let cart = JSON.parse(localStorage.cart)
-      // cart = localStorage.cart.reduce((counter, current) => {
-      //   if (!counter[current]) {
-      //     counter[current] = 1
-      //   } else {
-      //     counter[current]++
-      //   }
-      //   return counter
-      // } 
-      // , {})
-      
-      // this.setState({cart})
+      this.setState({cart: JSON.parse(localStorage.cart)})
     } catch (err) {
       this.setState({ error: err.message, loading: true });
     }
@@ -32,40 +21,28 @@ class Cart extends React.Component {
     if (prevState.cart === this.state.cart) {
       return;
     } else {
-      let cart = JSON.parse(localStorage.cart)
-      // cart.reduce((counter, current) => {
-      //   if (!counter[current]) {
-      //     counter[current] = 1
-      //   } else {
-      //     counter[current]++
-      //   }
-      //   return counter
-      // } 
-      // , {})
-      
-      this.setState({cart: JSON.parse(localStorage.cart)})
       this.setState({ loading: false });
     }
   }
-  handleClick() {
-    console.log(this.state.cart)
-  }
+ 
   render() {
-    const cart = localStorage.getItem('cart')
     return (
       <div>
         <h1>YOUR CART:</h1>
         <div style={{border: "3px black solid"}}>
-          <button onClick={()=>this.handleClick()}>Check Stuff</button>
-          {/* {cart.map(product => {
+          {!this.state.cart.length 
+          ? <h2>There are no items in your cart!</h2>
+          :
+          (this.state.cart.map(item => {
             return (
-              <div>
-                
-              <h3>{product.name}</h3>
-              <h3>${product.price}</h3>
+              <div key={item.productId} style={{border: "1px black solid"}}>
+              <h3>{item.product.name}</h3>
+              <h3>${item.product.price * item.qty}</h3>
+              <h3>There are {item.qty} in your cart</h3>
               </div>
             )
-          })} */}
+          }))
+        }
 
         </div>
       </div>
@@ -78,12 +55,6 @@ export default connect()(Cart)
 
 
 
-//products will be on localStorage.cart
-
-//nav bar link to '/cart'
-//route path to '/cart'
-
-//in cart, get products from local storage and display
 //update cart buttons?
 //increase/decrease qty
 //can't increase more than the item's quantity
