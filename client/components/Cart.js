@@ -38,9 +38,13 @@ class Cart extends React.Component {
   }
   handleIncrement(e) {
     const cart = JSON.parse(localStorage.cart)
-    cart[e.target.value].qty++
-    localStorage.cart = JSON.stringify(cart);
-    this.setState({cart: JSON.parse(localStorage.cart)})
+    if (cart[e.target.value].product.quantity === cart[e.target.value].qty) {
+      alert('There is not enough stock to add another item')
+    } else {
+      cart[e.target.value].qty++
+      localStorage.cart = JSON.stringify(cart);
+      this.setState({cart: JSON.parse(localStorage.cart)})
+    }
   }
   handleDecrement(e) {
     let cart = JSON.parse(localStorage.cart)
@@ -103,10 +107,9 @@ class Cart extends React.Component {
 export default connect()(Cart);
 //probably need it connected for logged in user later!
 
-//update cart buttons?
-//increase/decrease qty
+
 //can't increase more than the item's quantity
-//delete item
+
 
 //purchase button
 //clear local storage
