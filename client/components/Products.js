@@ -42,7 +42,7 @@ class Products extends React.Component {
                     <h3>{product.price}</h3>
                     <p>{product.description}</p>
                   </Link>
-                  <AddProdToCart product={product} auth={this.props.auth} />
+                  <AddProdToCart product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts}/>
 
                 </div>
               );
