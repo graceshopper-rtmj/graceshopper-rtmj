@@ -15,20 +15,20 @@ class AddProdToCart extends React.Component {
       this.props.fetchProducts()
       console.log("Added to user cart!");
     } else {
-      let cart = JSON.parse(localStorage.cart || null) || [];
       const product = this.props.product;
+      let cart = JSON.parse(localStorage.cart || null) || [];
       let found = false;
-      for(const item of cart){
-         if(item.productId === product.id){
-           item.qty++
-           found = true;
-           break;
-         }
+      for (const item of cart) {
+        if (item.productId === product.id) {
+          item.qty++
+          found = true;
+          break;
+        }
       }
-      if (!found){
-        cart.push({productId: product.id, qty: 1, product});
+      if (!found) {
+        const newCartItem = { productId: product.id, qty: 1, product }
+        cart.push(newCartItem);
       }
-      cart.push(product);
       localStorage.cart = JSON.stringify(cart);
     }
   }
