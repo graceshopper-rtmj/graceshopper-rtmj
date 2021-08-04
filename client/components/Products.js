@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchProducts } from '../store/products';
+import AddProdToCart from './AddProdToCart'
+import { Link } from 'react-router-dom'
 
 class Products extends React.Component {
   constructor(props) {
@@ -34,10 +36,14 @@ class Products extends React.Component {
             this.props.products.map((product) => {
               return (
                 <div key={product.id}>
-                  <img src={product.imageURL} />
-                  <h3>{product.name}</h3>
-                  <h3>{product.price}</h3>
-                  <p>{product.description}</p>
+                  <Link to={`/products/${product.id}`}>
+                    <img src={product.imageURL} />
+                    <h3>{product.name}</h3>
+                    <h3>{product.price}</h3>
+                    <p>{product.description}</p>
+                  </Link>
+                  <AddProdToCart product={product} auth={this.props.auth} />
+
                 </div>
               );
             })}
@@ -50,6 +56,7 @@ class Products extends React.Component {
 const mapState = (state) => {
   return {
     products: state.products,
+    auth: state.auth,
   };
 };
 const mapDispatch = (dispatch) => {
