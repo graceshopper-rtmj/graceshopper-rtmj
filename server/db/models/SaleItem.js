@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const SaleItem = db.define('saleItem', {
-  qty: {
+  quantity: {
     type: Sequelize.INTEGER,
     allowNull: false,
     defaultValue: 1
