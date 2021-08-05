@@ -7,7 +7,7 @@ const SaleItem = require('./models/SaleItem')
 const Sale = require('./models/Sale')
 
 //associations could go here!
-User.belongsToMany(Sale);
+User.hasMany(Sale);
 Sale.belongsTo(User);
 
 Product.belongsToMany(Sale, { through: "saleItem" });
