@@ -1,7 +1,5 @@
 const router = require('express').Router()
-const { models: { Product, User } } = require('../db')
-const Sale = require('../db/models/Sale') // do these need to be pulled from /db ?
-const SaleItem = require('../db/models/SaleItem') // do these need to be pulled from /db ?
+const { models: { User, Product, SaleItem, Sale } } = require('../db')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
