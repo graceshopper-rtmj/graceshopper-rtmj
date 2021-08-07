@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
+
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <h1>Grace Hopper</h1>
@@ -15,6 +16,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
             Logout
           </a>
           <Link to="/products">Products</Link>
+          <Link to="/cart">Cart</Link>
+          <Link to="/info">Info</Link>
         </div>
       ) : (
         <div>
@@ -23,6 +26,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
           <Link to="/signup">Sign Up</Link>
           <Link to="/products">Products</Link>
           <Link to="/cart">Cart</Link>
+          <Link to="/info">Info</Link>
         </div>
       )}
     </nav>
