@@ -43,14 +43,7 @@ router.put('/:productId/users/:userId', async (req, res, next) => {
     // If the user doesn't have a current cart, create one
     if (!currCart) {
       // Create a cart and associate it with the user
-      await Sale.create({ isPurchased: false, userId: user.id })
-      // Retrieve newly created cart
-      currCart = await Sale.findOne({
-        where: {
-          userId: user.id,
-          isPurchased: false,
-        },
-      })
+      currCart = await Sale.create({ isPurchased: false, userId: user.id })
       // Add the product to that cart
       await currCart.addProduct(product)
     }
@@ -72,6 +65,7 @@ router.put('/:productId/users/:userId', async (req, res, next) => {
         await currCart.addProduct(product)
       }
     }
+    res.sendStatus(204)
   } catch (err) {
     next(err)
   }
