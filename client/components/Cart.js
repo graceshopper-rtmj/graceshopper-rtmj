@@ -63,16 +63,34 @@ class Cart extends React.Component {
     }
   }
   handleIncrement(e) {
-    const cart = JSON.parse(localStorage.cart);
-    if (cart[e.target.value].product.quantity === cart[e.target.value].qty) {
-      alert('There is not enough stock to add another item');
+    const { token } = window.localStorage;
+    if (token) {
+      //e.target.value is the index in cart of the product to increment
+      //check if there's enough inventory (product.quantity) to increment cart quantity
+      //update item.saleItem.quantity
+      //dispatch update thunk 
+      //express route will need refactoring - currently it updates by setting assoc.
+
     } else {
-      cart[e.target.value].qty++;
-      localStorage.cart = JSON.stringify(cart);
-      this.setState({ cart: JSON.parse(localStorage.cart) });
+      const cart = JSON.parse(localStorage.cart);
+      if (cart[e.target.value].product.quantity === cart[e.target.value].qty) {
+        alert('There is not enough stock to add another item');
+      } else {
+        cart[e.target.value].qty++;
+        localStorage.cart = JSON.stringify(cart);
+        this.setState({ cart: JSON.parse(localStorage.cart) });
+      }
     }
   }
   handleDecrement(e) {
+    const { token } = window.localStorage;
+    if (token) {
+      //e.target.value is the index in cart of the product to increment
+      //check if this is the last of this item in cart - if so, run steps to delete item from cart
+      //update item.saleItem.quantity
+      //dispatch update thunk 
+      //express route will need refactoring - currently it updates by setting assoc.
+    }
     let cart = JSON.parse(localStorage.cart);
     if (cart[e.target.value].qty === 1) {
       let idx = e.target.value;
@@ -106,34 +124,6 @@ class Cart extends React.Component {
                 handleDecrement={this.handleDecrement}
               ></UserCartItems>
             ))}
-
-          {/* {!this.state.loading &&
-            cart.map((item, idx) => {
-              return (
-                <div key={item.productId} style={{ border: '1px black solid' }}>
-                  <h3>{item.product.name}</h3>
-                  <h3>${item.product.price * item.qty}</h3>
-                  <h3>There are {item.qty} in your cart</h3>
-                  <button value={idx} type='button' onClick={this.handleDelete}>
-                    Remove from cart
-                  </button>
-                  <button
-                    value={idx}
-                    type='button'
-                    onClick={this.handleIncrement}
-                  >
-                    +
-                  </button>
-                  <button
-                    value={idx}
-                    type='button'
-                    onClick={this.handleDecrement}
-                  >
-                    -
-                  </button>
-                </div>
-              );
-            })}*/}
         </div>
       </div>
     );
@@ -154,7 +144,6 @@ const mapDispatch = (dispatch) => {
 };
 
 export default connect(mapState, mapDispatch)(Cart);
-
 
 //can't increase more than the item's quantity
 
