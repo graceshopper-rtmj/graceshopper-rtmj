@@ -65,12 +65,18 @@ class Cart extends React.Component {
   handleIncrement(e) {
     const { token } = window.localStorage;
     if (token) {
+      const cart = this.state.userCart; //[{name, proce, quantity(inventory), saleItem: {quantity(in cart)}}]
       //e.target.value is the index in cart of the product to increment
-      //check if there's enough inventory (product.quantity) to increment cart quantity
-      //update item.saleItem.quantity
-      //dispatch update thunk 
-      //express route will need refactoring - currently it updates by setting assoc.
-
+      //if there's not enough inventory:
+      if (
+        cart[e.target.value].saleItem.quantity === cart[e.target.value].quantity
+      ) {
+        alert('There is not enough stock to add another item');
+      } else {
+        //update item.saleItem.quantity
+        //dispatch update thunk
+        //express route will need refactoring - currently it updates by setting assoc.
+      }
     } else {
       const cart = JSON.parse(localStorage.cart);
       if (cart[e.target.value].product.quantity === cart[e.target.value].qty) {
@@ -85,23 +91,32 @@ class Cart extends React.Component {
   handleDecrement(e) {
     const { token } = window.localStorage;
     if (token) {
-      //e.target.value is the index in cart of the product to increment
-      //check if this is the last of this item in cart - if so, run steps to delete item from cart
-      //update item.saleItem.quantity
-      //dispatch update thunk 
-      //express route will need refactoring - currently it updates by setting assoc.
-    }
-    let cart = JSON.parse(localStorage.cart);
-    if (cart[e.target.value].qty === 1) {
-      let idx = e.target.value;
-      let left = cart.slice(0, idx);
-      let right = cart.slice(idx + 1);
-      cart = [...left, ...right];
+      //if this is the only one of item in cart, run steps to delete
+      if (cart[e.target.value].saleItem.quantity === 1) {
+        let idx = e.target.value;
+        let cart = this.state.userCart;
+        let left = cart.slice(0, idx);
+        let right = cart.slice(idx + 1);
+        cart = [...left, ...right];
+        this.props.updateCart(cart, token);
+      } else {
+        //update item.saleItem.quantity
+        //dispatch update thunk
+        //express route will need refactoring - currently it updates by setting assoc.
+      }
     } else {
-      cart[e.target.value].qty--;
+      let cart = JSON.parse(localStorage.cart);
+      if (cart[e.target.value].qty === 1) {
+        let idx = e.target.value;
+        let left = cart.slice(0, idx);
+        let right = cart.slice(idx + 1);
+        cart = [...left, ...right];
+      } else {
+        cart[e.target.value].qty--;
+      }
+      localStorage.cart = JSON.stringify(cart);
+      this.setState({ cart: JSON.parse(localStorage.cart) });
     }
-    localStorage.cart = JSON.stringify(cart);
-    this.setState({ cart: JSON.parse(localStorage.cart) });
   }
   render() {
     return (
