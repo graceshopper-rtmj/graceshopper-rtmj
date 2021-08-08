@@ -31,10 +31,10 @@ class Cart extends React.Component {
     let idx = e.target.value
     let cart = this.state.cart
     let left = cart.slice(0, idx)
-    let right = cart.slice(idx+1)
+    let right = cart.slice(idx + 1)
     cart = [...left, ...right]
     localStorage.cart = JSON.stringify(cart);
-    this.setState({cart: JSON.parse(localStorage.cart)})
+    this.setState({ cart: JSON.parse(localStorage.cart) })
   }
   handleIncrement(e) {
     const cart = JSON.parse(localStorage.cart)
@@ -43,7 +43,7 @@ class Cart extends React.Component {
     } else {
       cart[e.target.value].qty++
       localStorage.cart = JSON.stringify(cart);
-      this.setState({cart: JSON.parse(localStorage.cart)})
+      this.setState({ cart: JSON.parse(localStorage.cart) })
     }
   }
   handleDecrement(e) {
@@ -51,13 +51,13 @@ class Cart extends React.Component {
     if (cart[e.target.value].qty === 1) {
       let idx = e.target.value
       let left = cart.slice(0, idx)
-      let right = cart.slice(idx+1)
+      let right = cart.slice(idx + 1)
       cart = [...left, ...right]
     } else {
       cart[e.target.value].qty--
     }
     localStorage.cart = JSON.stringify(cart);
-    this.setState({cart: JSON.parse(localStorage.cart)})
+    this.setState({ cart: JSON.parse(localStorage.cart) })
   }
   render() {
     return (
@@ -66,7 +66,7 @@ class Cart extends React.Component {
         <div style={{ border: '3px black solid' }}>
           {!this.state.cart.length ? (
             <h2>There are no items in your cart!</h2>
-          ) : (
+          ) : (!this.state.loading &&
             this.state.cart.map((item, idx) => {
               return (
                 <div key={item.productId} style={{ border: '1px black solid' }}>
