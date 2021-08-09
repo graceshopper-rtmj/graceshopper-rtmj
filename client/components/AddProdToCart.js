@@ -3,6 +3,7 @@ import { addProductToCart } from '../store/products'
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { addToCart } from '../store/cart'
 
 class AddProdToCart extends React.Component {
   constructor(props) {
@@ -13,8 +14,8 @@ class AddProdToCart extends React.Component {
 
   handleClick() {
     if (this.props.auth.id) {
-      this.props.addProductToCart(this.props.product.id, this.props.auth.id)
-      this.props.fetchProducts()
+      this.props.addToCart(this.props.product.id, this.props.auth.id)
+
       console.log("Added to user cart!");
     } else {
       const product = this.props.product;
@@ -47,7 +48,7 @@ class AddProdToCart extends React.Component {
 
 const mapDispatch = (dispatch) => {
   return {
-    addProductToCart: (productId, userId) => dispatch(addProductToCart(productId, userId))
+    addToCart: (productId, userId) => dispatch(addToCart(productId, userId))
 
   }
 }
