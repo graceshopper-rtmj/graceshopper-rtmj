@@ -1,13 +1,12 @@
 const router = require('express').Router();
-const {
-  models: { User, Product, SaleItem, Sale },
-} = require('../db');
+const { models: { User, Product, SaleItem, Sale } } = require('../db');
+const { requireToken } = require('./gatekeepingMiddleware')
 module.exports = router;
 
 // GET /api/cart
-router.get('/', async (req, res, next) => {
+router.get('/', requireToken, async (req, res, next) => {
   try {
-    const user = await User.findByToken(req.headers.authorization);
+    const user = req.user;
     const cart = await Sale.findOne({
       where: {
         userId: user.id,
@@ -15,7 +14,6 @@ router.get('/', async (req, res, next) => {
       },
       include: [{ model: Product }],
       attributes: ['id', 'userId'],
-      //why filter by attributes ? this is a get route so no risk of injection right?
     });
     res.json(cart);
   } catch (err) {
@@ -24,9 +22,9 @@ router.get('/', async (req, res, next) => {
 });
 
 // PUT /api/cart
-router.put('/', async (req, res, next) => {
+router.put('/', requireToken, async (req, res, next) => {
   try {
-    const user = await User.findByToken(req.headers.authorization);
+    const user = req.user;
     const oldCart = await Sale.findOne({
       where: {
         userId: user.id,
