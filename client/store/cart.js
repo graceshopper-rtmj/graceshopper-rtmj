@@ -17,7 +17,22 @@ const _addToCart = (product) => ({
   product
 })
 
+
 // Thunk Creators
+export const fetchCart = (token) => async (dispatch) => {
+  try {
+    const {data} = await axios.get('api/cart', {
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch(setCart(data))
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 export const addToCart = (productId, userId) => async (dispatch) => {
   try {
     const token = window.localStorage.getItem(TOKEN)
@@ -36,6 +51,22 @@ export const addToCart = (productId, userId) => async (dispatch) => {
       dispatch(setCart(data))
       return
     }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export const updateCartThunk = (cart, token) => async (dispatch) => {
+  try {
+    console.log('cart in thunk ', cart) //ok
+    const { data } = await axios.put('/api/cart', cart, {
+      headers: {
+        authorization: token
+      }
+    })
+    console.log('data returned from express ', data) //has one more item than cart sent out so item doesn't delete
+    dispatch(setCart(data))
+    //make sure you're sending whole cart back
   } catch (err) {
     console.log(err);
   }
