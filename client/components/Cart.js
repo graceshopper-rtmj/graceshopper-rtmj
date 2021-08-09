@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchCart, updateCartThunk } from '../store/cart';
 import GuestCartItems from './GuestCartItems';
 import UserCartItems from './UserCartItems';
+import { Link } from 'react-router-dom';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -128,19 +129,29 @@ class Cart extends React.Component {
         <div style={{ border: '3px black solid' }}>
           {!this.state.loading &&
             (this.state.cart.length ? (
-              <GuestCartItems
-                cart={this.state.cart}
-                handleDelete={this.handleDelete}
-                handleIncrement={this.handleIncrement}
-                handleDecrement={this.handleDecrement}
-              ></GuestCartItems>
+              <div>
+                <GuestCartItems
+                  cart={this.state.cart}
+                  handleDelete={this.handleDelete}
+                  handleIncrement={this.handleIncrement}
+                  handleDecrement={this.handleDecrement}
+                ></GuestCartItems>
+                <Link to={"/cart/checkout"}>
+                  <button>Proceed to checkout</button>
+                </Link>
+              </div>
             ) : (
-              <UserCartItems
-                cart={this.state.userCart}
-                handleDelete={this.handleDelete}
-                handleIncrement={this.handleIncrement}
-                handleDecrement={this.handleDecrement}
-              ></UserCartItems>
+              <div>
+                <UserCartItems
+                  cart={this.state.userCart}
+                  handleDelete={this.handleDelete}
+                  handleIncrement={this.handleIncrement}
+                  handleDecrement={this.handleDecrement}
+                ></UserCartItems>
+                <Link to={"/cart/checkout"}>
+                  <button>Proceed to checkout</button>
+                </Link>
+              </div>
             ))}
         </div>
       </div>
