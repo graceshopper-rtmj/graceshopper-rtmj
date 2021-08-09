@@ -1,7 +1,6 @@
 import React from 'react';
 
 export default function GuestCartItems(props) {
-  console.log(props)
   return (
     <div>
       {!props.cart.length ?

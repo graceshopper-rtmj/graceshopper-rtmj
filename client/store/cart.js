@@ -56,17 +56,21 @@ export const addToCart = (productId, userId) => async (dispatch) => {
   }
 }
 
-export const updateCartThunk = (cart, token) => async (dispatch) => {
+//cart in arg is either products array (for delete) or item id (for inc/dec)
+export const updateCartThunk = (cart, method, token) => async (dispatch) => {
   try {
-    console.log('cart in thunk ', cart) //ok
-    const { data } = await axios.put('/api/cart', cart, {
+    console.log('cart in thunk ', cart) //quantity increment correct in here
+    //cart PRODUCTS SUB-ARRAY with item removed already 
+    //or with quantity changed
+    const { data } = await axios.put('/api/cart', {method, cart}, {
       headers: {
         authorization: token
       }
     })
-    console.log('data returned from express ', data) //has one more item than cart sent out so item doesn't delete
+    console.log('data returned from express ', data) //quantity returned is not incremented
+    //RETURNS CART INSTANCE WITH {id, userID, products: []}
     dispatch(setCart(data))
-    //make sure you're sending whole cart back
+    //set cart with whole cart OBJECT, not just products sub-array
   } catch (err) {
     console.log(err);
   }
