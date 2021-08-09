@@ -33,14 +33,45 @@ router.put('/', requireToken, async (req, res, next) => {
       include: [{ model: Product }],
       attributes: ['id', 'userId'],
     });
+    if (req.body.method === 'delete') {
+      await oldCart.setProducts(req.body.cart.map((product) => product.id));
+      const newCart = await Sale.findByPk(oldCart.id, {
+        include: [{ model: Product }],
+        attributes: ['id', 'userId'],
+      });
 
-    await oldCart.setProducts(req.body.map(product => product.id));
-    const newCart = await Sale.findByPk(oldCart.id, {
-      include: [{ model: Product }],
-      attributes: ['id', 'userId'],
-    })
+      res.send(newCart);
+    } else if (req.body.method === 'increment') {
+      const currSaleItem = await SaleItem.findOne({
+        where: {
+          saleId: oldCart.id,
+          productId: req.body.cart
+          //req.body.cart is the product id here
+        }
+      })
+      await currSaleItem.update({ quantity: currSaleItem.quantity + 1 })
+      let newCart = await Sale.findByPk(oldCart.id, {
+        include: [{ model: Product }],
+        attributes: ['id', 'userId'],
+      });
+      res.send(newCart);
 
-    res.send(newCart);
+
+    } else if (req.body.method === 'decrement') {
+      const currSaleItem = await SaleItem.findOne({
+        where: {
+          saleId: oldCart.id,
+          productId: req.body.cart
+          //req.body.cart is the product id here
+        }
+      })
+      await currSaleItem.update({ quantity: currSaleItem.quantity - 1 })
+      let newCart = await Sale.findByPk(oldCart.id, {
+        include: [{ model: Product }],
+        attributes: ['id', 'userId'],
+      });
+      res.send(newCart);
+    }
   } catch (err) {
     next(err);
   }
