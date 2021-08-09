@@ -1,6 +1,7 @@
 import React from "react";
 import { addProductToCart } from '../store/products'
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import Button from '@material-ui/core/Button';
 
 class AddProdToCart extends React.Component {
   constructor(props) {
@@ -36,9 +37,9 @@ class AddProdToCart extends React.Component {
   render() {
 
     return (
-      <button type="button" onClick={this.handleClick}>
+      <Button type="button" variant="contained" onClick={this.handleClick}>
         Add To Cart
-      </button>
+      </Button>
     )
   }
 }
