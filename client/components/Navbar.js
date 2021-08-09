@@ -3,6 +3,12 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import Typography from '@material-ui/core/Typography';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import { makeStyles } from '@material-ui/core'
+
+
 
 
 const Navbar = ({handleClick, isLoggedIn}) => (
