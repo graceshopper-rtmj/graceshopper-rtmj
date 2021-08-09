@@ -21,7 +21,7 @@ const _addToCart = (product) => ({
 // Thunk Creators
 export const fetchCart = (token) => async (dispatch) => {
   try {
-    const {data} = await axios.get('api/cart', {
+    const { data } = await axios.get('api/cart', {
       headers: {
         authorization: token
       }
@@ -37,7 +37,7 @@ export const addToCart = (productId, userId) => async (dispatch) => {
   try {
     const token = window.localStorage.getItem(TOKEN)
     if (token) {
-      await axios.put(`/api/products/${productId}/users/${userId}`, {
+      await axios.put(`/api/products/${productId}/users/${userId}`, undefined, {
         headers: {
           authorization: token
         }

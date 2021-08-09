@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { models: { User, Product, SaleItem, Sale } } = require('../db')
+const { requireToken } = require('./gatekeepingMiddleware')
 module.exports = router
 
 // GET /api/products
@@ -23,11 +24,11 @@ router.get('/:id', async (req, res, next) => {
 })
 
 // PUT /api/products/:productId/users/:userId
-router.put('/:productId/users/:userId', async (req, res, next) => {
+router.put('/:productId/users/:userId', requireToken, async (req, res, next) => {
   try {
     // Get the user
-    const user = await User.findByPk(req.params.userId);
-
+    const user = await req.user;
+    console.log(user);
     // Get the product
     const product = await Product.findByPk(req.params.productId)
 
