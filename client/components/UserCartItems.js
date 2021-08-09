@@ -3,7 +3,7 @@ import React from 'react';
 export default function UserCartItems(props) {
   return (
     <div>
-      {!props.cart ?
+      {!props.cart.length ?
        (
         <h2>There are no items in your cart!</h2>
         // this doesn't show up when cart is empty

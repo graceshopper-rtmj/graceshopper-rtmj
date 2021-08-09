@@ -46,6 +46,7 @@ class Cart extends React.Component {
   handleDelete(e) {
     const { token } = window.localStorage;
     if (token) {
+      //all removing removes all items after that one
       let idx = e.target.value;
       let cart = this.state.userCart;
       let left = cart.slice(0, idx);
@@ -53,6 +54,8 @@ class Cart extends React.Component {
       cart = [...left, ...right];
       this.props.updateCart(cart, token);
     } else {
+      //handle delete not logged in - one delete deleted 2 items
+      //when you remove middle, last one goes
       let idx = e.target.value;
       let cart = this.state.cart;
       let left = cart.slice(0, idx);
