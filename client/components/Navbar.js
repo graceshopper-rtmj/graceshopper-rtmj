@@ -2,11 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <div className="Title">graceHOPPERS</div>
+    <div className="Title">Grass Hopper</div>
     <nav>
       <div className="Toolbar">
       {isLoggedIn ? (
