@@ -123,6 +123,11 @@ class Cart extends React.Component {
     }
   }
   render() {
+    console.log('in main cart this.state.cart.length', this.state.cart.length)
+    console.log('in main cart this.state.cart', this.state.cart)
+    console.log('in main cart this.state.userCart.length', this.state.userCart.length)
+    console.log('in main cart this.state.userCart', this.state.userCart)
+    
     return (
       <div>
         <h1>YOUR CART:</h1>
