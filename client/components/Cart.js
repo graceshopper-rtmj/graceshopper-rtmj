@@ -46,20 +46,25 @@ class Cart extends React.Component {
   handleDelete(e) {
     const { token } = window.localStorage;
     if (token) {
-      //all removing removes all items after that one
+      //user delete ok
       let idx = e.target.value;
       let cart = this.state.userCart;
       let left = cart.slice(0, idx);
-      let right = cart.slice(idx + 1);
+      idx++;
+      let right = cart.slice(idx);
       cart = [...left, ...right];
-      this.props.updateCart(cart, token);
+
+      //METHOD = DELETE
+      this.props.updateCart(cart, 'delete', token);
+
+      //passes in products array and re-sets store with cart object containing updated products array
     } else {
-      //handle delete not logged in - one delete deleted 2 items
-      //when you remove middle, last one goes
+      //guest delete ok
       let idx = e.target.value;
       let cart = this.state.cart;
       let left = cart.slice(0, idx);
-      let right = cart.slice(idx + 1);
+      idx++;
+      let right = cart.slice(idx);
       cart = [...left, ...right];
       localStorage.cart = JSON.stringify(cart);
       this.setState({ cart: JSON.parse(localStorage.cart) });
@@ -68,7 +73,7 @@ class Cart extends React.Component {
   handleIncrement(e) {
     const { token } = window.localStorage;
     if (token) {
-      const cart = this.state.userCart; //[{name, proce, quantity(inventory), saleItem: {quantity(in cart)}}]
+      let cart = this.state.userCart; //[{name, price, quantity(inventory), saleItem: {quantity(in cart)}}]
       //e.target.value is the index in cart of the product to increment
       //if there's not enough inventory:
       if (
@@ -76,11 +81,11 @@ class Cart extends React.Component {
       ) {
         alert('There is not enough stock to add another item');
       } else {
-        //update item.saleItem.quantity
-        //dispatch update thunk
-        //express route will need refactoring - currently it updates by setting assoc.
+        cart = cart[e.target.value].id
+        this.props.updateCart(cart, 'increment', token)
       }
     } else {
+      //guest increment ok
       const cart = JSON.parse(localStorage.cart);
       if (cart[e.target.value].product.quantity === cart[e.target.value].qty) {
         alert('There is not enough stock to add another item');
@@ -94,25 +99,30 @@ class Cart extends React.Component {
   handleDecrement(e) {
     const { token } = window.localStorage;
     if (token) {
-      //if this is the only one of item in cart, run steps to delete
+      let cart = this.state.userCart
       if (cart[e.target.value].saleItem.quantity === 1) {
         let idx = e.target.value;
         let cart = this.state.userCart;
         let left = cart.slice(0, idx);
-        let right = cart.slice(idx + 1);
+        idx++;
+        let right = cart.slice(idx);
         cart = [...left, ...right];
         this.props.updateCart(cart, token);
       } else {
+        cart = cart[e.target.value].id
+        this.props.updateCart(cart, 'decrement', token)
         //update item.saleItem.quantity
         //dispatch update thunk
         //express route will need refactoring - currently it updates by setting assoc.
       }
     } else {
+      //guest decrement OK
       let cart = JSON.parse(localStorage.cart);
       if (cart[e.target.value].qty === 1) {
         let idx = e.target.value;
         let left = cart.slice(0, idx);
-        let right = cart.slice(idx + 1);
+        idx++;
+        let right = cart.slice(idx);
         cart = [...left, ...right];
       } else {
         cart[e.target.value].qty--;
@@ -157,7 +167,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchCart: (token) => dispatch(fetchCart(token)),
-    updateCart: (cart, token) => dispatch(updateCartThunk(cart, token)),
+    updateCart: (cart, method, token) => dispatch(updateCartThunk(cart, method, token)),
   };
 };
 
