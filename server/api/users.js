@@ -1,8 +1,10 @@
 const router = require('express').Router()
 const { models: { User } } = require('../db')
+const { requireToken, isAdmin } = require('./gatekeepingMiddleware')
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+// GET /api/users
+router.get('/', requireToken, isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       attributes: ['id', 'username']

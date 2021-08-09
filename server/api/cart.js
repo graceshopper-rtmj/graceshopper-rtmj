@@ -4,6 +4,7 @@ const {
 } = require('../db');
 module.exports = router;
 
+// GET /api/cart
 router.get('/', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
@@ -22,6 +23,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// PUT /api/cart
 router.put('/', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
