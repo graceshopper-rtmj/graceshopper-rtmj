@@ -76,3 +76,13 @@ router.put('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+//POST api/cart/checkout
+router.post('/checkout', async (req, res, next) => {
+  try {
+    const newSale = await Sale.create(req.body);
+    res.status(201).send(newSale);
+  } catch (err) {
+      next(err);
+  }
+}) 

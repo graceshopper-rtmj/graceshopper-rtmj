@@ -4,6 +4,7 @@ import { fetchCart, updateCartThunk } from '../store/cart';
 import GuestCartItems from './GuestCartItems';
 import UserCartItems from './UserCartItems';
 import { Link } from 'react-router-dom';
+import Checkout from './Checkout';
 
 class Cart extends React.Component {
   constructor(props) {
@@ -175,10 +176,11 @@ class Cart extends React.Component {
   }
 
   render() {
-    console.log('in main cart this.state.cart.length', this.state.cart.length)
-    console.log('in main cart this.state.cart', this.state.cart)
-    console.log('in main cart this.state.userCart.length', this.state.userCart.length)
-    console.log('in main cart this.state.userCart', this.state.userCart)
+    // console.log('in main cart this.state.cart.length', this.state.cart.length)
+    // console.log('in main cart this.state.cart', this.state.cart)
+    // console.log('in main cart this.state.userCart.length', this.state.userCart.length)
+    // console.log('in main cart this.state.userCart', this.state.userCart)
+    // console.log('main cart this.props', this.props)
     
     return (
       <div>

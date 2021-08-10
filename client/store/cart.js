@@ -61,6 +61,16 @@ export const updateCartThunk = (cart, method) => async (dispatch) => {
   }
 }
 
+export const guestSaleThunk = (guestCart, history) => async (dispatch) => {
+  try {
+    const { data: created } = await axios.post('api/cart/checkout', guestCart);
+    dispatch(createGuestSale(created));
+    history.push('/cart/checkout');
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // Products Reducer
 export default function cartReducer(state = {}, action) {
   switch (action.type) {
