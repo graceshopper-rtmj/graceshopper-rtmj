@@ -177,11 +177,9 @@ class Cart extends React.Component {
   }
 
   async handleGuestCheckout(){
-    //call axios connect /api/cart/checkout
-    //create cart instance & setProduct in array
-    //
     try {
       const guestCart = this.state.cart;
+      //do we need use '/api'
       await axios.post('api/cart/guestcheckout', guestCart);
       this.props.history.push('/cart/confirmation')
       window.localStorage.clear();
@@ -190,8 +188,16 @@ class Cart extends React.Component {
     }
   }
 
-  handleUserCheckout = () => {
-
+  async handleUserCheckout(){
+    //call axios connect /api/cart/checkout
+    //create cart instance & setProduct in array
+    try {
+      const id = this.props.cart.id
+      await axios.put('api/cart/usercheckout', {id});
+      this.props.history.push('/cart/confirmation')
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   render() {
