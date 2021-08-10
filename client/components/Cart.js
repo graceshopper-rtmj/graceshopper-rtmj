@@ -12,7 +12,7 @@ class Cart extends React.Component {
       cart: [],
       error: null,
       loading: true,
-      userCart: [], //{}
+      userCart: [], 
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleIncrement = this.handleIncrement.bind(this);
