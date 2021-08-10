@@ -90,7 +90,7 @@ const AuthForm = props => {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              {props.displayName}
             </Button>
             {error ? <p style={{ color: "red" }}>{error}</p> : <p></p>}
             <Box mt={5}>
