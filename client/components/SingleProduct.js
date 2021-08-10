@@ -36,15 +36,23 @@ class SingleProduct extends React.Component {
       <Container>
         {this.state.error && <h1>{this.state.error}</h1>}
         {this.state.loading && <h1>{this.state.loading}</h1>}
-        <Grid container>
-          {!this.state.loading && (
+        {!this.state.loading && (
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: '100vh' }}
+          >
             <Grid item key={product.id} >
-              <PicCardSingleProduct product={product} description={product.description}/>
-             
-              <AddProdToCart product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts}/>
+              <PicCardSingleProduct product={product} description={product.description} />
+            </Grid >
+            <Grid>
+              <AddProdToCart product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts} />
             </Grid>
-          )}
-        </Grid>
+          </Grid>
+        )}
       </Container>
     );
   }
