@@ -37,7 +37,7 @@ export const authenticate = (username, password, method) => async dispatch => {
     window.localStorage.setItem(TOKEN, res.data.token)
     dispatch(me())
   } catch (authError) {
-    return dispatch(setAuth({ error: authError }))
+    return dispatch(setAuth({ error: authError.response.data }))
   }
 }
 
@@ -56,8 +56,8 @@ export const logout = () => {
 export default function (state = {}, action) {
   switch (action.type) {
     case SET_AUTH:
-      const { id, username } = action.auth
-      return { id, username }
+      const { id, username, error } = action.auth
+      return { id, username, error }
     default:
       return state
   }

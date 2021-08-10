@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { models: { User, Product, SaleItem, Sale } } = require('../db')
+const { models: { Product, SaleItem, Sale } } = require('../db')
 const { requireToken } = require('./gatekeepingMiddleware')
 module.exports = router
 
@@ -15,9 +15,34 @@ router.get('/', async (req, res, next) => {
 
 // GET /api/products/:id
 router.get('/:id', async (req, res, next) => {
+  const productId = req.params.id
+
   try {
-    const product = await Product.findByPk(req.params.id)
-    res.json(product)
+    // Case: productId is not a number
+    if (isNaN(productId)) {
+      next({
+        status: 403,
+        message: `Product with id ${productId} was not found!`
+      })
+    }
+
+    // Case: productId is a number
+    else {
+      const product = await Product.findByPk(productId)
+
+      // Case: product with given productId does not exist
+      if (!product) {
+        next({
+          status: 404,
+          message: `Product with id ${productId} was not found!`
+        })
+      }
+
+      // Case: product with given productId does exists
+      else {
+        res.json(product)
+      }
+    }
   } catch (err) {
     next(err)
   }
