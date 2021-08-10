@@ -4,7 +4,6 @@ import { fetchCart, updateCartThunk } from '../store/cart';
 import GuestCartItems from './GuestCartItems';
 import UserCartItems from './UserCartItems';
 
-//error when logged in no items - can't read name of undefuned
 
 class Cart extends React.Component {
   constructor(props) {
