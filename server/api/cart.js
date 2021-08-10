@@ -77,3 +77,26 @@ router.put('/', requireToken, async (req, res, next) => {
     next(err);
   }
 });
+
+//POST api/cart
+router.post('/guestcheckout', async (req, res, next) => {
+  try {
+    const newSale = await Sale.create({isPurchased: true});
+    const ids = req.body.map(product => product.productId);
+    await newSale.setProducts(ids);
+    res.sendStatus(201);
+  } catch (err) {
+      next(err);
+  }
+}) 
+
+//PUT api/cart/usercheckout
+router.put('/usercheckout', async (req, res, next) => {
+  try {
+    const sale = await Sale.findByPk(req.body.id)
+    await sale.update({isPurchased: true})
+    res.send(201)
+  } catch (err) {
+    next(err);
+  }
+})
