@@ -13,7 +13,7 @@ class Cart extends React.Component {
       cart: [],
       error: null,
       loading: true,
-      userCart: [], 
+      userCart: [],
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleIncrement = this.handleIncrement.bind(this);
@@ -54,7 +54,7 @@ class Cart extends React.Component {
     const { token: isLoggedIn } = window.localStorage;
 
     if (isLoggedIn) {
-      this.setState({ userCart: this.props.cart.products });
+      this.setState({ userCart: this.props.cart.products || [] });
     }
   }
 
@@ -176,7 +176,7 @@ class Cart extends React.Component {
     }
   }
 
-  async handleGuestCheckout(){
+  async handleGuestCheckout() {
     try {
       const guestCart = this.state.cart;
       //do we need use '/api'
@@ -188,12 +188,12 @@ class Cart extends React.Component {
     }
   }
 
-  async handleUserCheckout(){
+  async handleUserCheckout() {
     //call axios connect /api/cart/checkout
     //create cart instance & setProduct in array
     try {
       const id = this.props.cart.id
-      await axios.put('api/cart/usercheckout', {id});
+      await axios.put('api/cart/usercheckout', { id });
       this.props.history.push('/cart/confirmation')
     } catch (err) {
       console.log(err)
