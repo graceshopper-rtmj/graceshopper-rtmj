@@ -12,8 +12,10 @@ const useStyles = makeStyles({
     maxWidth: 345,
   },
   media: {
-    height: 140,
+    height: 270,
   },
+
+
 });
 export default function PictureCard({ product }){
     const classes = useStyles()
@@ -26,11 +28,8 @@ export default function PictureCard({ product }){
             title={product.title}
             />
             <CardContent>
-            <Typography gutterBottom variant="h5" component="h3">
+            <Typography gutterBottom variant="h6" component="h3">
                 {product.name} <br />{`$ ${product.price}`}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" component="p">
-                {product.description}
             </Typography>
             </CardContent>
         </Card>

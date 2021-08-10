@@ -5,7 +5,7 @@ import { fetchProduct } from '../store/single-product';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Container } from '@material-ui/core';
-import PictureCard from './PictureCard';
+import PicCardSingleProduct from './PicCardSingleProduct';
 
 class SingleProduct extends React.Component {
   constructor(props) {
@@ -39,12 +39,8 @@ class SingleProduct extends React.Component {
         <Grid container>
           {!this.state.loading && (
             <Grid item key={product.id} >
-              <PictureCard product={product} />
-              {/* <img src={product.imageURL} />
-              <h3>{product.name}</h3>
-              <h3>{product.price}</h3>
-              <p>{product.description}</p> */}
-              {/* add to cart button */}
+              <PicCardSingleProduct product={product} description={product.description}/>
+             
               <AddProdToCart product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts}/>
             </Grid>
           )}

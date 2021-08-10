@@ -18,12 +18,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://www.kindpng.com/picc/m/133-1332549_cricket-grasshopper-illustration-playing-guitar-insect-cartoon-grasshopper.png)',
+    backgroundImage: 'url(https://i.imgur.com/VGjWy63.png)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    style: {width: "50%", height: "50%" }
+   
   },
   paper: {
     margin: theme.spacing(8, 4),
