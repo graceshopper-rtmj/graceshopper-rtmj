@@ -35,8 +35,14 @@ class Products extends React.Component {
     return (
       <Container>
         {this.state.error && <h1>{this.state.error}</h1>}
-        {this.state.loading && <h1>{this.state.loading}</h1>}          
-          <Grid container>
+        {this.state.loading && <h1>{this.state.loading}</h1>}
+        <Grid
+          container
+          spacing={0}
+          flexDirection='row'
+          justifyContent='center'
+          style={{ minHeight: '100vh' }}
+        >
           {!this.state.loading &&
             this.props.products.map((product) => {
               return (
@@ -44,11 +50,15 @@ class Products extends React.Component {
                   <Link to={`/products/${product.id}`}>
                     <PictureCard product={product} />
                   </Link>
-                  <AddProdToCart product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts}/>
+                  <AddProdToCart
+                    product={product}
+                    auth={this.props.auth}
+                    fetchProducts={this.props.fetchProducts}
+                  />
                 </Grid>
               );
             })}
-            </Grid>
+        </Grid>
       </Container>
     );
   }

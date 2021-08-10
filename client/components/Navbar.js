@@ -13,7 +13,8 @@ import { makeStyles } from '@material-ui/core'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <div className="Title">Grass Hopper</div>
+    {/* <div className="Title">Grace Hopper</div> */}
+    <img className="Title" src='https://i.imgur.com/VGjWy63.png' />
     <nav>
       <div className="Toolbar">
       {isLoggedIn ? (

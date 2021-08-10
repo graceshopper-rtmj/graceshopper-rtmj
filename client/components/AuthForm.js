@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
+    backgroundSize: 'auto',
     backgroundPosition: 'center',
     style: {width: "50%", height: "50%" }
    
@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: '#30a143'
+
   },
 }));
 
@@ -90,7 +92,7 @@ const AuthForm = props => {
               color="primary"
               className={classes.submit}
             >
-              Sign In
+              {props.displayName}
             </Button>
             {error ? <p style={{ color: "red" }}>{error}</p> : <p></p>}
             <Box mt={5}>
