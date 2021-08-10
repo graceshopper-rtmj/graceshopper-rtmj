@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { fetchCart, updateCartThunk } from '../store/cart';
 import GuestCartItems from './GuestCartItems';
 import UserCartItems from './UserCartItems';
-import { Link } from 'react-router-dom';
-import Checkout from './Checkout';
+import axios from 'axios';
 
 
 class Cart extends React.Component {
@@ -19,6 +18,8 @@ class Cart extends React.Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleIncrement = this.handleIncrement.bind(this);
     this.handleDecrement = this.handleDecrement.bind(this);
+    this.handleGuestCheckout = this.handleGuestCheckout.bind(this);
+    this.handleUserCheckout = this.handleUserCheckout.bind(this);
   }
 
   componentDidMount() {
@@ -175,6 +176,24 @@ class Cart extends React.Component {
     }
   }
 
+  async handleGuestCheckout(){
+    //call axios connect /api/cart/checkout
+    //create cart instance & setProduct in array
+    //
+    try {
+      const guestCart = this.state.cart;
+      await axios.post('api/cart/guestcheckout', guestCart);
+      this.props.history.push('/cart/confirmation')
+      window.localStorage.clear();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  handleUserCheckout = () => {
+
+  }
+
   render() {
     if (!this.state.loading && this.state.cart.length) {
       return (
@@ -187,9 +206,7 @@ class Cart extends React.Component {
               handleIncrement={this.handleIncrement}
               handleDecrement={this.handleDecrement}
             ></GuestCartItems>
-              <Link to={"/cart/checkout"}>
-                <button>Proceed to checkout</button>
-              </Link>
+            <button onClick={this.handleGuestCheckout}>Checkout Cart</button>
           </div>
         </div>
       );
@@ -204,12 +221,19 @@ class Cart extends React.Component {
               handleIncrement={this.handleIncrement}
               handleDecrement={this.handleDecrement}
             ></UserCartItems>
-                <Link to={"/cart/checkout"}>
-                  <button>Proceed to checkout</button>
-                </Link>
+            <button onClick={this.handleUserCheckout}>Checkout Cart</button>
           </div>
         </div>
       );
+    } else {
+      return (
+        <div>
+          <h1>YOUR CART:</h1>
+          <div style={{ border: '3px black solid' }}>
+            <h1>Your cart is empty.</h1>
+          </div>
+        </div>
+      )
     }
   }
 }
