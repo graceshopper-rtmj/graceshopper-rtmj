@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { fetchCart, updateCartThunk } from '../store/cart';
 import GuestCartItems from './GuestCartItems';
 import UserCartItems from './UserCartItems';
+import axios from 'axios';
+
 
 class Cart extends React.Component {
   constructor(props) {
@@ -11,11 +13,13 @@ class Cart extends React.Component {
       cart: [],
       error: null,
       loading: true,
-      userCart: [],
+      userCart: [], 
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleIncrement = this.handleIncrement.bind(this);
     this.handleDecrement = this.handleDecrement.bind(this);
+    this.handleGuestCheckout = this.handleGuestCheckout.bind(this);
+    this.handleUserCheckout = this.handleUserCheckout.bind(this);
   }
 
   componentDidMount() {
@@ -120,7 +124,6 @@ class Cart extends React.Component {
       }
     }
   }
-
   handleDecrement(event) {
     // Being logged in is defined has having a state.auth that has a truthy id
     const isLoggedIn = this.props.auth.id;
@@ -173,30 +176,71 @@ class Cart extends React.Component {
     }
   }
 
+  async handleGuestCheckout(){
+    try {
+      const guestCart = this.state.cart;
+      //do we need use '/api'
+      await axios.post('api/cart/guestcheckout', guestCart);
+      this.props.history.push('/cart/confirmation')
+      window.localStorage.clear();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async handleUserCheckout(){
+    //call axios connect /api/cart/checkout
+    //create cart instance & setProduct in array
+    try {
+      const id = this.props.cart.id
+      await axios.put('api/cart/usercheckout', {id});
+      this.props.history.push('/cart/confirmation')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   render() {
-    return (
-      <div>
-        <h1>YOUR CART:</h1>
-        <div style={{ border: '3px black solid' }}>
-          {!this.state.loading &&
-            (this.state.cart.length ? (
-              <GuestCartItems
-                cart={this.state.cart}
-                handleDelete={this.handleDelete}
-                handleIncrement={this.handleIncrement}
-                handleDecrement={this.handleDecrement}
-              ></GuestCartItems>
-            ) : (
-              <UserCartItems
-                cart={this.state.userCart}
-                handleDelete={this.handleDelete}
-                handleIncrement={this.handleIncrement}
-                handleDecrement={this.handleDecrement}
-              ></UserCartItems>
-            ))}
+    if (!this.state.loading && this.state.cart.length) {
+      return (
+        <div>
+          <h1>YOUR CART:</h1>
+          <div style={{ border: '3px black solid' }}>
+            <GuestCartItems
+              cart={this.state.cart}
+              handleDelete={this.handleDelete}
+              handleIncrement={this.handleIncrement}
+              handleDecrement={this.handleDecrement}
+            ></GuestCartItems>
+            <button onClick={this.handleGuestCheckout}>Checkout Cart</button>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else if (!this.state.loading && this.state.userCart.length) {
+      return (
+        <div>
+          <h1>YOUR CART:</h1>
+          <div style={{ border: '3px black solid' }}>
+            <UserCartItems
+              cart={this.state.userCart}
+              handleDelete={this.handleDelete}
+              handleIncrement={this.handleIncrement}
+              handleDecrement={this.handleDecrement}
+            ></UserCartItems>
+            <button onClick={this.handleUserCheckout}>Checkout Cart</button>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <h1>YOUR CART:</h1>
+          <div style={{ border: '3px black solid' }}>
+            <h1>Your cart is empty.</h1>
+          </div>
+        </div>
+      )
+    }
   }
 }
 

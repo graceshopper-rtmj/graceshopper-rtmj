@@ -19,7 +19,7 @@ router.post('/signup', async (req, res, next) => {
     res.send({ token: await user.generateToken() })
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
-      res.status(401).send('User already exists')
+      res.status(401).send('A user with this email already exists!')
     } else {
       next(err)
     }

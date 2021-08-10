@@ -7,8 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core';
 import PictureCard from './PictureCard';
 
-
-
 class Products extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +31,7 @@ class Products extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <Container>
         {this.state.error && <h1>{this.state.error}</h1>}

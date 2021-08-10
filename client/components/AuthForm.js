@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
@@ -32,10 +33,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -55,56 +52,54 @@ const AuthForm = props => {
 
   return (
     <Grid container component="main" className={classes.root}>
-    <CssBaseline />
-    <Grid item xs={2} sm={4} md={7} className={classes.image} />
-    <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          {props.displayName}
-        </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit} name={name}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Email"
-            name="username"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign In
-          </Button>
-          
-          <Box mt={5}>
-            
-          </Box>
-        </form>
-      </div>
+      <CssBaseline />
+      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <div className={classes.paper}>
+
+          <Typography component="h1" variant="h5">
+            {props.displayName}
+          </Typography>
+          <form className={classes.form} noValidate onSubmit={handleSubmit} name={name}>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="username"
+              label="Email"
+              name="username"
+              autoComplete="email"
+              autoFocus
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+            />
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign In
+            </Button>
+            {error ? <p style={{ color: "red" }}>{error}</p> : <p></p>}
+            <Box mt={5}>
+
+            </Box>
+          </form>
+        </div>
+      </Grid>
     </Grid>
-  </Grid>
 
   )
 }
