@@ -6,30 +6,44 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Products from './Products'
 import React from 'react';
+import Grid from '@material-ui/core/Grid';
 
-const useStyles = makeStyles({
+
+const useStyles = makeStyles((theme) => ({
   root: {
+    justify: "center",
+    alignItems: 'center',
+    direction: 'column',
     maxWidth: 345,
   },
   media: {
-    height: 270,
+    height: 210,
   },
-
-
-});
-export default function PictureCard({ product }){
+  cardstyle: {
+    justify: "center",
+    alignItems: 'center',
+    direction: 'column',
+    maxWidth: 345,
+  }
+  
+      
+}));
+export default function PicCardSingleProduct({ product }){
     const classes = useStyles()
 
     return(
-       <Card className={classes.root}>
+       <Card className={classes.cardstyle}>
           <CardMedia
             className={classes.media}
             image={product.imageURL}
             title={product.title}
             />
             <CardContent>
-            <Typography gutterBottom variant="h6" component="h3">
+            <Typography gutterBottom variant="h5" component="h2">
                 {product.name} <br />{`$ ${product.price}`}
+            </Typography>
+            <Typography variant="body2" color="textSecondary" component="p">
+                {product.description}
             </Typography>
             </CardContent>
         </Card>

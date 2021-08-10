@@ -17,12 +17,14 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://www.kindpng.com/picc/m/133-1332549_cricket-grasshopper-illustration-playing-guitar-insect-cartoon-grasshopper.png)',
+    backgroundImage: 'url(https://i.imgur.com/VGjWy63.png)',
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
     backgroundPosition: 'center',
+    style: {width: "50%", height: "50%" }
+   
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -54,7 +56,7 @@ const AuthForm = props => {
   return (
     <Grid container component="main" className={classes.root}>
     <CssBaseline />
-    <Grid item xs={false} sm={4} md={7} className={classes.image} />
+    <Grid item xs={2} sm={4} md={7} className={classes.image} />
     <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
