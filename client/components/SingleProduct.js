@@ -31,7 +31,8 @@ class SingleProduct extends React.Component {
     }
   }
   render() {
-    const { product } = this.props;
+    const product = this.props.product;
+    console.log("PRODUCT", this.props);
     return (
       <Container>
         {this.state.error && <h1>{this.state.error}</h1>}
@@ -61,6 +62,7 @@ class SingleProduct extends React.Component {
 const mapState = (state) => {
   return {
     product: state.singleProduct,
+    auth: state.auth,
   };
 };
 const mapDispatch = (dispatch) => {
