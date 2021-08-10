@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 /**
  * COMPONENT
  */
@@ -97,6 +98,7 @@ const AuthForm = props => {
       </div>
     </Grid>
   </Grid>
+
   )
 }
 

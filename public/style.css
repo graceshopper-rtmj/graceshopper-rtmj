@@ -5,8 +5,8 @@ a {
   text-decoration: none;
 }
 
-label {
-  display: block;
+img {
+  max-width: 600px;
 }
 
 nav {
@@ -50,10 +50,10 @@ nav a {
   align-items: center;
   padding: 0px 10px;
 }
-form div {
-  margin: 1em;
+/* form div {
+  /* margin: 3em; 
   display: inline-block;
-}
+} */
 
 p {
   font-family: Roboto;
