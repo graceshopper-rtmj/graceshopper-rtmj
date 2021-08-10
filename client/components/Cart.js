@@ -168,14 +168,3 @@ const mapDispatch = (dispatch) => {
 
 export default connect(mapState, mapDispatch)(Cart);
 
-//can't increase more than the item's quantity
-
-//purchase button
-//clear local storage
-//to the backend:
-
-//sales/orders model
-//decrement quantity by amount sold
-//put route to create an instance
-//action constant, creator, thunk, reducer
-//maybe just an axios call in component because state doesn't need to reflect sales (unless for admin)
