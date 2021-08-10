@@ -13,7 +13,11 @@ export default function UserCartItems(props) {
             <div key={item.id} style={{ border: '1px black solid' }}>
               <h3>{item.name}</h3>
               <h3>${item.price * item.saleItem.quantity}</h3>
-              <h3>There are {item.saleItem.quantity} in your cart</h3>
+              {item.saleItem.quantity === 1 
+              ? <h3>There is {item.saleItem.quantity} in your cart</h3>
+              : <h3>There are {item.saleItem.quantity} in your cart</h3>
+             }
+             
               <button value={idx} type='button' onClick={props.handleDelete}>
                 Remove from cart
               </button>

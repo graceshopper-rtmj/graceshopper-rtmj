@@ -18,110 +18,162 @@ class Cart extends React.Component {
     this.handleIncrement = this.handleIncrement.bind(this);
     this.handleDecrement = this.handleDecrement.bind(this);
   }
+
   componentDidMount() {
     try {
-      const { token } = window.localStorage;
-      if (token) {
-        this.props.fetchCart(token);
-      } else {
+      // Being logged in is defined has having a token in local storage
+      const { token: isLoggedIn } = window.localStorage;
+
+      // Case: The user is logged in
+      if (isLoggedIn) {
+        this.props.fetchCart();
+      }
+
+      // Case: The user is not logged in (the user is a guest)
+      else {
         this.setState({ cart: JSON.parse(localStorage.cart) });
       }
     } catch (err) {
       this.setState({ error: err.message, loading: true });
     }
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.cart === this.state.cart &&
-      prevProps.cart === this.props.cart
+      prevState.cart === this.state.cart && prevProps.cart === this.props.cart
     ) {
       return;
-    } else {
-      this.setState({ loading: false });
-      const { token } = window.localStorage;
-      if (token) {
-        this.setState({ userCart: this.props.cart.products }); // RAD THIS WORKS
-      }
+    }
+
+    this.setState({ loading: false });
+
+    // Being logged in is defined has having a token in local storage
+    const { token: isLoggedIn } = window.localStorage;
+
+    if (isLoggedIn) {
+      this.setState({ userCart: this.props.cart.products });
     }
   }
-  handleDelete(e) {
-    const { token } = window.localStorage;
-    if (token) {
-      //all removing removes all items after that one
-      let idx = e.target.value;
+
+  handleDelete(event) {
+    // Being logged in is defined has having a state.auth that has a truthy id
+    const isLoggedIn = this.props.auth.id;
+
+    // Index in cart of the product to delete
+    const targetIdx = event.target.value;
+
+    // Case: The user is logged in
+    if (isLoggedIn) {
       let cart = this.state.userCart;
-      let left = cart.slice(0, idx);
-      let right = cart.slice(idx + 1);
-      cart = [...left, ...right];
-      this.props.updateCart(cart, token);
-    } else {
-      //handle delete not logged in - one delete deleted 2 items
-      //when you remove middle, last one goes
-      let idx = e.target.value;
+      cart.splice(targetIdx, 1)
+      this.props.updateCart(cart, 'delete');
+    }
+
+    // Case: The user is not logged in (the user is a guest)
+    else {
       let cart = this.state.cart;
-      let left = cart.slice(0, idx);
-      let right = cart.slice(idx + 1);
-      cart = [...left, ...right];
+      cart.splice(targetIdx, 1)
       localStorage.cart = JSON.stringify(cart);
       this.setState({ cart: JSON.parse(localStorage.cart) });
     }
   }
-  handleIncrement(e) {
-    const { token } = window.localStorage;
-    if (token) {
-      const cart = this.state.userCart; //[{name, proce, quantity(inventory), saleItem: {quantity(in cart)}}]
-      //e.target.value is the index in cart of the product to increment
-      //if there's not enough inventory:
-      if (
-        cart[e.target.value].saleItem.quantity === cart[e.target.value].quantity
-      ) {
+
+  handleIncrement(event) {
+    // Being logged in is defined has having a state.auth that has a truthy id
+    const isLoggedIn = this.props.auth.id;
+
+    // Index in cart of the product to increment
+    const targetIdx = event.target.value;
+
+    // Case: The user is logged in
+    if (isLoggedIn) {
+      // Get the cart from the state
+      // Cart structure: [{name, price, quantity(inventory), saleItem: {quantity(in cart)}}]
+      let cart = this.state.userCart;
+
+      // Case: Not enough inventory to add another product; alert the user
+      if (cart[targetIdx].saleItem.quantity === cart[targetIdx].quantity) {
         alert('There is not enough stock to add another item');
-      } else {
-        //update item.saleItem.quantity
-        //dispatch update thunk
-        //express route will need refactoring - currently it updates by setting assoc.
       }
-    } else {
+
+      // Case: Enough inventory; increment the quantity
+      else {
+        cart = cart[targetIdx].id
+        this.props.updateCart(cart, 'increment')
+      }
+    }
+
+    // Case: The user is not logged in (the user is a guest)
+    else {
+      // Get the cart from local storage
       const cart = JSON.parse(localStorage.cart);
-      if (cart[e.target.value].product.quantity === cart[e.target.value].qty) {
+
+      // Case: Not enough inventory to add another product; alert the user
+      if (cart[targetIdx].product.quantity === cart[targetIdx].qty) {
         alert('There is not enough stock to add another item');
-      } else {
-        cart[e.target.value].qty++;
+      }
+
+      // Case: Enough inventory; increment the quantity
+      else {
+        cart[targetIdx].qty++;
         localStorage.cart = JSON.stringify(cart);
         this.setState({ cart: JSON.parse(localStorage.cart) });
       }
     }
   }
-  handleDecrement(e) {
-    const { token } = window.localStorage;
-    if (token) {
-      //if this is the only one of item in cart, run steps to delete
-      if (cart[e.target.value].saleItem.quantity === 1) {
-        let idx = e.target.value;
-        let cart = this.state.userCart;
+
+  handleDecrement(event) {
+    // Being logged in is defined has having a state.auth that has a truthy id
+    const isLoggedIn = this.props.auth.id;
+
+    // Index in cart of the product to decrement
+    const targetIdx = event.target.value;
+
+    // Case: The user is logged in
+    if (isLoggedIn) {
+      // Get the cart from the state
+      let cart = this.state.userCart
+
+      // Case: target item's quantity is 1; remove it from the upon decrement
+      if (cart[targetIdx].saleItem.quantity === 1) {
+        let idx = targetIdx;
         let left = cart.slice(0, idx);
-        let right = cart.slice(idx + 1);
+        idx++;
+        let right = cart.slice(idx);
         cart = [...left, ...right];
-        this.props.updateCart(cart, token);
-      } else {
-        //update item.saleItem.quantity
-        //dispatch update thunk
-        //express route will need refactoring - currently it updates by setting assoc.
+        this.props.updateCart(cart, "delete");
       }
-    } else {
+
+      // Case: target items's quantity > 1; decrement normally
+      else {
+        cart = cart[targetIdx].id
+        this.props.updateCart(cart, 'decrement')
+      }
+    }
+
+    // Case: The user is not logged in (the user is a guest)
+    else {
+      // Get the cart from local storage
       let cart = JSON.parse(localStorage.cart);
-      if (cart[e.target.value].qty === 1) {
-        let idx = e.target.value;
+
+      // Case: target item's quantity is 1; remove it from the upon decrement
+      if (cart[targetIdx].qty === 1) {
+        let idx = targetIdx;
         let left = cart.slice(0, idx);
-        let right = cart.slice(idx + 1);
+        idx++;
+        let right = cart.slice(idx);
         cart = [...left, ...right];
-      } else {
-        cart[e.target.value].qty--;
+      }
+
+      // Case: target items's quantity > 1; decrement normally
+      else {
+        cart[targetIdx].qty--;
       }
       localStorage.cart = JSON.stringify(cart);
       this.setState({ cart: JSON.parse(localStorage.cart) });
     }
   }
+
   render() {
     console.log('in main cart this.state.cart.length', this.state.cart.length)
     console.log('in main cart this.state.cart', this.state.cart)
@@ -166,27 +218,16 @@ class Cart extends React.Component {
 
 const mapState = (state) => {
   return {
+    auth: state.auth,
     cart: state.cart,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
-    fetchCart: (token) => dispatch(fetchCart(token)),
-    updateCart: (cart, token) => dispatch(updateCartThunk(cart, token)),
+    fetchCart: () => dispatch(fetchCart()),
+    updateCart: (cart, method) => dispatch(updateCartThunk(cart, method)),
   };
 };
 
 export default connect(mapState, mapDispatch)(Cart);
-
-//can't increase more than the item's quantity
-
-//purchase button
-//clear local storage
-//to the backend:
-
-//sales/orders model
-//decrement quantity by amount sold
-//put route to create an instance
-//action constant, creator, thunk, reducer
-//maybe just an axios call in component because state doesn't need to reflect sales (unless for admin)
