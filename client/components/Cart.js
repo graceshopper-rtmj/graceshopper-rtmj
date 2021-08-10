@@ -4,6 +4,8 @@ import { fetchCart, updateCartThunk } from '../store/cart';
 import GuestCartItems from './GuestCartItems';
 import UserCartItems from './UserCartItems';
 
+//error when logged in no items - can't read name of undefuned
+
 class Cart extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +13,7 @@ class Cart extends React.Component {
       cart: [],
       error: null,
       loading: true,
-      userCart: [],
+      userCart: [], //{}
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleIncrement = this.handleIncrement.bind(this);
@@ -39,27 +41,21 @@ class Cart extends React.Component {
       this.setState({ loading: false });
       const { token } = window.localStorage;
       if (token) {
-        this.setState({ userCart: this.props.cart.products }); // RAD THIS WORKS
+        this.setState({ userCart: this.props.cart.products });
       }
     }
   }
   handleDelete(e) {
     const { token } = window.localStorage;
     if (token) {
-      //user delete ok
       let idx = e.target.value;
       let cart = this.state.userCart;
       let left = cart.slice(0, idx);
       idx++;
       let right = cart.slice(idx);
       cart = [...left, ...right];
-
-      //METHOD = DELETE
       this.props.updateCart(cart, 'delete', token);
-
-      //passes in products array and re-sets store with cart object containing updated products array
     } else {
-      //guest delete ok
       let idx = e.target.value;
       let cart = this.state.cart;
       let left = cart.slice(0, idx);
@@ -73,19 +69,16 @@ class Cart extends React.Component {
   handleIncrement(e) {
     const { token } = window.localStorage;
     if (token) {
-      let cart = this.state.userCart; //[{name, price, quantity(inventory), saleItem: {quantity(in cart)}}]
-      //e.target.value is the index in cart of the product to increment
-      //if there's not enough inventory:
+      let cart = this.state.userCart;
       if (
         cart[e.target.value].saleItem.quantity === cart[e.target.value].quantity
       ) {
         alert('There is not enough stock to add another item');
       } else {
-        cart = cart[e.target.value].id
-        this.props.updateCart(cart, 'increment', token)
+        cart = cart[e.target.value].id;
+        this.props.updateCart(cart, 'increment', token);
       }
     } else {
-      //guest increment ok
       const cart = JSON.parse(localStorage.cart);
       if (cart[e.target.value].product.quantity === cart[e.target.value].qty) {
         alert('There is not enough stock to add another item');
@@ -99,7 +92,7 @@ class Cart extends React.Component {
   handleDecrement(e) {
     const { token } = window.localStorage;
     if (token) {
-      let cart = this.state.userCart
+      let cart = this.state.userCart;
       if (cart[e.target.value].saleItem.quantity === 1) {
         let idx = e.target.value;
         let cart = this.state.userCart;
@@ -109,14 +102,10 @@ class Cart extends React.Component {
         cart = [...left, ...right];
         this.props.updateCart(cart, 'delete', token);
       } else {
-        cart = cart[e.target.value].id
-        this.props.updateCart(cart, 'decrement', token)
-        //update item.saleItem.quantity
-        //dispatch update thunk
-        //express route will need refactoring - currently it updates by setting assoc.
+        cart = cart[e.target.value].id;
+        this.props.updateCart(cart, 'decrement', token);
       }
     } else {
-      //guest decrement OK
       let cart = JSON.parse(localStorage.cart);
       if (cart[e.target.value].qty === 1) {
         let idx = e.target.value;
@@ -132,29 +121,59 @@ class Cart extends React.Component {
     }
   }
   render() {
-    return (
-      <div>
-        <h1>YOUR CART:</h1>
-        <div style={{ border: '3px black solid' }}>
-          {!this.state.loading &&
-            (this.state.cart.length ? (
-              <GuestCartItems
-                cart={this.state.cart}
-                handleDelete={this.handleDelete}
-                handleIncrement={this.handleIncrement}
-                handleDecrement={this.handleDecrement}
-              ></GuestCartItems>
-            ) : (
-              <UserCartItems
-                cart={this.state.userCart}
-                handleDelete={this.handleDelete}
-                handleIncrement={this.handleIncrement}
-                handleDecrement={this.handleDecrement}
-              ></UserCartItems>
-            ))}
+    if (!this.state.loading && this.state.cart.length) {
+      return (
+        <div>
+          <h1>YOUR CART:</h1>
+          <div style={{ border: '3px black solid' }}>
+            <GuestCartItems
+              cart={this.state.cart}
+              handleDelete={this.handleDelete}
+              handleIncrement={this.handleIncrement}
+              handleDecrement={this.handleDecrement}
+            ></GuestCartItems>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else if (!this.state.loading && this.state.userCart.length) {
+      return (
+        <div>
+          <h1>YOUR CART:</h1>
+          <div style={{ border: '3px black solid' }}>
+            <UserCartItems
+              cart={this.state.userCart}
+              handleDelete={this.handleDelete}
+              handleIncrement={this.handleIncrement}
+              handleDecrement={this.handleDecrement}
+            ></UserCartItems>
+          </div>
+        </div>
+      );
+    }
+
+    //   return (
+    //     <div>
+    //       <h1>YOUR CART:</h1>
+    //       <div style={{ border: '3px black solid' }}>
+    //         {!this.state.loading &&
+    //           (this.state.cart.length ? (
+    //             <GuestCartItems
+    //               cart={this.state.cart}
+    //               handleDelete={this.handleDelete}
+    //               handleIncrement={this.handleIncrement}
+    //               handleDecrement={this.handleDecrement}
+    //             ></GuestCartItems>
+    //           ) : (
+    //             <UserCartItems
+    //               cart={this.state.userCart}
+    //               handleDelete={this.handleDelete}
+    //               handleIncrement={this.handleIncrement}
+    //               handleDecrement={this.handleDecrement}
+    //             ></UserCartItems>
+    //           ))}
+    //       </div>
+    //     </div>
+    //   );
   }
 }
 
@@ -167,7 +186,8 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchCart: (token) => dispatch(fetchCart(token)),
-    updateCart: (cart, method, token) => dispatch(updateCartThunk(cart, method, token)),
+    updateCart: (cart, method, token) =>
+      dispatch(updateCartThunk(cart, method, token)),
   };
 };
 
