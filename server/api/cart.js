@@ -65,6 +65,7 @@ router.put('/', async (req, res, next) => {
           //req.body.cart is the product id here
         }
       })
+     
       await currSaleItem.update({ quantity: currSaleItem.quantity - 1 })
       let newCart = await Sale.findByPk(oldCart.id, {
         include: [{ model: Product }],

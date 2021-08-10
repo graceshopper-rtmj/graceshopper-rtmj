@@ -107,7 +107,7 @@ class Cart extends React.Component {
         idx++;
         let right = cart.slice(idx);
         cart = [...left, ...right];
-        this.props.updateCart(cart, token);
+        this.props.updateCart(cart, 'delete', token);
       } else {
         cart = cart[e.target.value].id
         this.props.updateCart(cart, 'decrement', token)
