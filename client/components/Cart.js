@@ -6,6 +6,7 @@ import UserCartItems from './UserCartItems';
 import { Link } from 'react-router-dom';
 import Checkout from './Checkout';
 
+
 class Cart extends React.Component {
   constructor(props) {
     super(props);
@@ -13,7 +14,7 @@ class Cart extends React.Component {
       cart: [],
       error: null,
       loading: true,
-      userCart: [],
+      userCart: [], 
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleIncrement = this.handleIncrement.bind(this);
@@ -122,7 +123,6 @@ class Cart extends React.Component {
       }
     }
   }
-
   handleDecrement(event) {
     // Being logged in is defined has having a state.auth that has a truthy id
     const isLoggedIn = this.props.auth.id;
@@ -176,45 +176,41 @@ class Cart extends React.Component {
   }
 
   render() {
-    // console.log('in main cart this.state.cart.length', this.state.cart.length)
-    // console.log('in main cart this.state.cart', this.state.cart)
-    // console.log('in main cart this.state.userCart.length', this.state.userCart.length)
-    // console.log('in main cart this.state.userCart', this.state.userCart)
-    // console.log('main cart this.props', this.props)
-    
-    return (
-      <div>
-        <h1>YOUR CART:</h1>
-        <div style={{ border: '3px black solid' }}>
-          {!this.state.loading &&
-            (this.state.cart.length ? (
-              <div>
-                <GuestCartItems
-                  cart={this.state.cart}
-                  handleDelete={this.handleDelete}
-                  handleIncrement={this.handleIncrement}
-                  handleDecrement={this.handleDecrement}
-                ></GuestCartItems>
-                <Link to={"/cart/checkout"}>
-                  <button>Proceed to checkout</button>
-                </Link>
-              </div>
-            ) : (
-              <div>
-                <UserCartItems
-                  cart={this.state.userCart}
-                  handleDelete={this.handleDelete}
-                  handleIncrement={this.handleIncrement}
-                  handleDecrement={this.handleDecrement}
-                ></UserCartItems>
-                <Link to={"/cart/checkout"}>
-                  <button>Proceed to checkout</button>
-                </Link>
-              </div>
-            ))}
+    if (!this.state.loading && this.state.cart.length) {
+      return (
+        <div>
+          <h1>YOUR CART:</h1>
+          <div style={{ border: '3px black solid' }}>
+            <GuestCartItems
+              cart={this.state.cart}
+              handleDelete={this.handleDelete}
+              handleIncrement={this.handleIncrement}
+              handleDecrement={this.handleDecrement}
+            ></GuestCartItems>
+              <Link to={"/cart/checkout"}>
+                <button>Proceed to checkout</button>
+              </Link>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else if (!this.state.loading && this.state.userCart.length) {
+      return (
+        <div>
+          <h1>YOUR CART:</h1>
+          <div style={{ border: '3px black solid' }}>
+            <UserCartItems
+              cart={this.state.userCart}
+              handleDelete={this.handleDelete}
+              handleIncrement={this.handleIncrement}
+              handleDecrement={this.handleDecrement}
+            ></UserCartItems>
+                <Link to={"/cart/checkout"}>
+                  <button>Proceed to checkout</button>
+                </Link>
+          </div>
+        </div>
+      );
+    }
   }
 }
 
