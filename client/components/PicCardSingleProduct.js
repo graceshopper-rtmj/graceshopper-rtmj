@@ -9,6 +9,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     justify: "center",
@@ -23,7 +24,13 @@ const useStyles = makeStyles((theme) => ({
     justify: "center",
     alignItems: 'center',
     direction: 'column',
-    maxWidth: 345,
+    
+    
+  },
+  style: {
+      justifycontent: "center",
+      alignItems: "center",
+      maxWidth: 345
   }
   
       
@@ -32,6 +39,16 @@ export default function PicCardSingleProduct({ product }){
     const classes = useStyles()
 
     return(
+     <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justify="center"
+        style={{ minHeight: '100vh' }}
+ >
+     <Grid item xs={3}>
+    
        <Card className={classes.cardstyle}>
           <CardMedia
             className={classes.media}
@@ -47,5 +64,7 @@ export default function PicCardSingleProduct({ product }){
             </Typography>
             </CardContent>
         </Card>
+        </Grid>
+        </Grid>
     )
 }
