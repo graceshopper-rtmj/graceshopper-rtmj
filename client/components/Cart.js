@@ -150,30 +150,6 @@ class Cart extends React.Component {
         </div>
       );
     }
-
-    //   return (
-    //     <div>
-    //       <h1>YOUR CART:</h1>
-    //       <div style={{ border: '3px black solid' }}>
-    //         {!this.state.loading &&
-    //           (this.state.cart.length ? (
-    //             <GuestCartItems
-    //               cart={this.state.cart}
-    //               handleDelete={this.handleDelete}
-    //               handleIncrement={this.handleIncrement}
-    //               handleDecrement={this.handleDecrement}
-    //             ></GuestCartItems>
-    //           ) : (
-    //             <UserCartItems
-    //               cart={this.state.userCart}
-    //               handleDelete={this.handleDelete}
-    //               handleIncrement={this.handleIncrement}
-    //               handleDecrement={this.handleDecrement}
-    //             ></UserCartItems>
-    //           ))}
-    //       </div>
-    //     </div>
-    //   );
   }
 }
 
