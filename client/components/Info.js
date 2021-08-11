@@ -15,7 +15,7 @@ export default function Info() {
               <h3>Insects have been called the food of the future</h3>
               <p>
                 But they’re also the food of the past, with many cultures already
-                considering them a delicacy, or at least a good snack
+                considering them a delicacy, or at least a good snack.
               </p>      
           </Paper>
         </Grid>
