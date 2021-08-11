@@ -20,7 +20,7 @@ async function seed() {
     name: 'Chocolate Protein Bar 4-pk',
     price: 15,
     imageURL: 'https://i.imgur.com/8IvML53.png',
-    description: 'A four pack of our best-selling chocolate protein bar. Packed with 20g of sustainable grasshopper protein, providing you with all of your essential amino acids, B12, and omega-3s - and over twice as much iron as spinach. Grasshopper flour is over 70% protein by volume, making it a sustainable alternative to traditional animal-based protein sources. Why choose chicken (23% protein by volume) or eggs (12%) when you can have this instead?',
+    description: 'A four-pack of our best-selling chocolate protein bar. Packed with 20g of sustainable grasshopper protein, providing you with all of your essential amino acids, B12, and omega-3s - and over twice as much iron as spinach. Grasshopper flour is over 70% protein by volume, making it a sustainable alternative to traditional animal-based protein sources. Why choose chicken (23% protein by volume) or eggs (12%) when you can have this instead?',
     quantity: 50,
     type: 'bar'
   })
@@ -29,7 +29,7 @@ async function seed() {
     name: 'Mint Chocolate Protein Bar 4-pk',
     price: 15,
     imageURL: 'https://i.imgur.com/FYpeSaJ.png',
-    description: 'A four pack of our new mint chocolate protein bar. Packed with 20g of sustainable grasshopper protein, providing you with all of your essential amino acids, B12, and omega-3s - and over twice as much iron as spinach. Grasshopper flour is over 70% protein by volume, making it a sustainable alternative to traditional animal-based protein sources. Why choose chicken (23% protein by volume) or eggs (12%) when you can have this instead?',
+    description: 'A four-pack of our new mint chocolate protein bar. Packed with 20g of sustainable grasshopper protein, providing you with all of your essential amino acids, B12, and omega-3s - and over twice as much iron as spinach. Grasshopper flour is over 70% protein by volume, making it a sustainable alternative to traditional animal-based protein sources. Why choose chicken (23% protein by volume) or eggs (12%) when you can have this instead?',
     quantity: 50,
     type: 'bar'
   })
@@ -38,7 +38,7 @@ async function seed() {
     name: 'Peanut Butter Chocolate Protein Bar 4-pk',
     price: 15,
     imageURL: 'https://i.imgur.com/rm4OC1W.png',
-    description: 'A four pack of your favorite chocolate, now in a protein bar. Packed with 20g of sustainable grasshopper protein, providing you with all of your essential amino acids, B12, and omega-3s - and over twice as much iron as spinach. Grasshopper flour is over 70% protein by volume, making it a sustainable alternative to traditional animal-based protein sources. Why choose chicken (23% protein by volume) or eggs (12%) when you can have this instead?',
+    description: 'A four-pack of your favorite chocolate, now in a protein bar. Packed with 20g of sustainable grasshopper protein, providing you with all of your essential amino acids, B12, and omega-3s - and over twice as much iron as spinach. Grasshopper flour is over 70% protein by volume, making it a sustainable alternative to traditional animal-based protein sources. Why choose chicken (23% protein by volume) or eggs (12%) when you can have this instead?',
     quantity: 50,
     type: 'bar'
   })
