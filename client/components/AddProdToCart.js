@@ -15,8 +15,6 @@ class AddProdToCart extends React.Component {
   handleClick() {
     if (this.props.auth.id) {
       this.props.addToCart(this.props.product.id, this.props.auth.id)
-
-      console.log("Added to user cart!");
     } else {
       const product = this.props.product;
       let cart = JSON.parse(localStorage.cart || null) || [];

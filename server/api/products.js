@@ -53,7 +53,6 @@ router.put('/:productId/users/:userId', requireToken, async (req, res, next) => 
   try {
     // Get the user
     const user = req.user;
-    console.log(user);
     // Get the product
     const product = await Product.findByPk(req.params.productId)
 

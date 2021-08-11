@@ -32,7 +32,6 @@ class SingleProduct extends React.Component {
   }
   render() {
     const product = this.props.product;
-    console.log("PRODUCT", this.props);
     return (
       <Container>
         {this.state.error && <h1>{this.state.error}</h1>}
@@ -43,7 +42,7 @@ class SingleProduct extends React.Component {
             spacing={0}
             direction="column"
             alignItems="center"
-            justify="center"
+            justifyContent="center"
             style={{ minHeight: '100vh' }}
           >
             <Grid item key={product.id} >

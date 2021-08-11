@@ -39,7 +39,7 @@ class Products extends React.Component {
         <Grid
           container
           spacing={0}
-          flexDirection='row'
+          flexdirection='row'
           justifyContent='center'
           style={{ minHeight: '100vh' }}
         >
