@@ -49,15 +49,11 @@ class SingleProduct extends React.Component {
             spacing={0}
             direction="column"
             alignItems="center"
-            justifyContent="center"
             style={{ minHeight: '100vh' }}
           >
             <Grid item key={product.id} >
-              <PicCardSingleProduct product={product} description={product.description} />
+              <PicCardSingleProduct product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts} />
             </Grid >
-            <Grid>
-              <AddProdToCart product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts} />
-            </Grid>
           </Grid>
         )}
       </Container>
