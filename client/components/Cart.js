@@ -235,8 +235,9 @@ class Cart extends React.Component {
       return (
         <div>
           <h1>YOUR CART:</h1>
-          <div style={{ border: '3px black solid' }}>
-            <h1>Your cart is empty.</h1>
+          <div>
+            <img src="https://i.imgur.com/jL7Y5fg.png" />
+            <h1 style={{ textAlign: "center" }}>Your cart is empty!</h1>
           </div>
         </div>
       )
