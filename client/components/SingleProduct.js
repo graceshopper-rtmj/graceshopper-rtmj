@@ -31,26 +31,29 @@ class SingleProduct extends React.Component {
     }
   }
   render() {
-    const { product } = this.props;
+    const product = this.props.product;
+    const error = this.props.error
     return (
       <Container>
-        {this.state.error && <h1>{this.state.error}</h1>}
+        {error && (
+          <div>
+            <img src="https://i.imgur.com/cMaUPGw.png" />
+            <h1 style={{ textAlign: "center" }}>{error}</h1>
+          </div>
+
+        )}
         {this.state.loading && <h1>{this.state.loading}</h1>}
-        {!this.state.loading && (
+        {!error && !this.state.loading && (
           <Grid
             container
             spacing={0}
             direction="column"
             alignItems="center"
-            justify="center"
             style={{ minHeight: '100vh' }}
           >
             <Grid item key={product.id} >
-              <PicCardSingleProduct product={product} description={product.description} />
+              <PicCardSingleProduct product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts} />
             </Grid >
-            <Grid>
-              <AddProdToCart product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts} />
-            </Grid>
           </Grid>
         )}
       </Container>
@@ -61,6 +64,8 @@ class SingleProduct extends React.Component {
 const mapState = (state) => {
   return {
     product: state.singleProduct,
+    auth: state.auth,
+    error: state.singleProduct.error
   };
 };
 const mapDispatch = (dispatch) => {

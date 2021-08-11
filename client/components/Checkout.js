@@ -35,8 +35,6 @@ class Checkout extends React.Component {
       // Case: The user is logged in
       if (isLoggedIn) {
         const userCart = this.props.fetchCart();
-        console.log('what is userCart in checkout', userCart)
-        // this.setState({ checkoutCart: userCart });
       }
 
       // Case: The user is not logged in (the user is a guest)
@@ -57,23 +55,13 @@ class Checkout extends React.Component {
   };
 
   handlePlaceOrder = () => {
-    if( JSON.parse(localStorage.cart).length){
-      console.log("in handlePlaceOrder", JSON.parse(localStorage.cart));
-      //create sale instance
-
+    if (JSON.parse(localStorage.cart).length) {
       //clear localStorage
       localStorage.clear();
-      console.log("after storage clear in handlePlaceOrder", JSON.parse(localStorage.cart));
     }
-  //   localStorage.clear();
   }
 
   render() {
-    console.log("checkout page this.props", this.props);
-    console.log('checkout page localstorage:', JSON.parse(localStorage.cart));
-    // console.log("is there token:", window.localStorage.token);
-    // console.log('Cart component:', Cart);
-    console.log('what is this in checkout:', this);
     const { username, open, checkoutCart } = this.state;
     const { handleClickOpen, handleClose, handlePlaceOrder } = this;
 
