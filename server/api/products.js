@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const { models: { Product, SaleItem, Sale } } = require('../db')
-const { requireToken } = require('./gatekeepingMiddleware')
+const { requireToken, isAdmin } = require('./gatekeepingMiddleware')
 module.exports = router
 
 // GET /api/products
@@ -89,5 +89,37 @@ router.put('/:productId/users/:userId', requireToken, async (req, res, next) => 
     res.sendStatus(204)
   } catch (err) {
     next(err)
+  }
+})
+
+//POST api/products (admin access)
+router.post('/', isAdmin, async (req, res, next) => {
+  try {
+    const newProduct = await Product.create(req.body);
+    res.status(201).send(newProduct);
+  } catch (err) {
+    next(err);
+  }
+});
+
+//PUT /api/products/:productId (admin access)
+router.put('/:productId', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const updateProduct = await Product.findByPk(req.params.productId);
+    await updateProduct.update(req.body);
+    res.status(201).send(updateProduct);
+  } catch (err) {
+    next(err);
+  }
+});
+
+//DELETE /api/products/:productId (admin access)
+router.delete('/:productId', requireToken, isAdmin, async (req, res, next) => {
+  try {
+    const deleteProduct = await Product.findByPk(req.params.productId);
+    await deleteProduct.destroy();
+    res.send(deleteProduct);
+  } catch (err) {
+    next(err);
   }
 })
