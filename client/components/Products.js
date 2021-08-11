@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchProducts } from '../store/products';
-import AddProdToCart from './AddProdToCart';
-import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import { Container } from '@material-ui/core';
 import PictureCard from './PictureCard';
@@ -47,14 +45,7 @@ class Products extends React.Component {
             this.props.products.map((product) => {
               return (
                 <Grid item key={product.id} xs={12} md={6} lg={4}>
-                  <Link to={`/products/${product.id}`}>
-                    <PictureCard product={product} />
-                  </Link>
-                  <AddProdToCart
-                    product={product}
-                    auth={this.props.auth}
-                    fetchProducts={this.props.fetchProducts}
-                  />
+                  <PictureCard product={product} auth={this.props.auth} fetchProducts={this.props.fetchProducts} />
                 </Grid>
               );
             })}
