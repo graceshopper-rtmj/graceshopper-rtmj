@@ -20,10 +20,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     // Case: productId is not a number
     if (isNaN(productId)) {
-      next({
-        status: 403,
-        message: `Product with id ${productId} was not found!`
-      })
+      res.status(403).send(`Product with id '${productId}' was not found!`)
     }
 
     // Case: productId is a number
@@ -32,10 +29,7 @@ router.get('/:id', async (req, res, next) => {
 
       // Case: product with given productId does not exist
       if (!product) {
-        next({
-          status: 404,
-          message: `Product with id ${productId} was not found!`
-        })
+        res.status(404).send(`Product with id '${productId}' was not found!`)
       }
 
       // Case: product with given productId does exists

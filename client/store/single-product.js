@@ -12,12 +12,12 @@ export const fetchProduct = (id) => async (dispatch) => {
   try {
     const { data } = await axios.get(`/api/products/${id}`);
     dispatch(setProduct(data));
-  } catch (err) {
-    console.log(err);
+  } catch (productError) {
+    return dispatch(setProduct({ error: productError.response.data }))
   }
 };
 
-export default function productsReducer(state = [], action) {
+export default function productsReducer(state = {}, action) {
   switch (action.type) {
     case SET_PRODUCT:
       return action.product;

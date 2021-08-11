@@ -68,6 +68,7 @@ const mapState = (state) => {
   return {
     products: state.products,
     auth: state.auth,
+    error: state.products.error
   };
 };
 const mapDispatch = (dispatch) => {
